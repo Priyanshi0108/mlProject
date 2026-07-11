@@ -1,1 +1,157 @@
-<h1>Welcome to the home page</h1>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictor</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <div class="container nav">
+            <div class="logo">
+                🎓 Student Performance Predictor
+            </div>
+
+            <a href="/predictdata" class="btn">Try Prediction</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+
+            <div class="hero-text">
+
+                <span class="tag">
+                    Machine Learning Project
+                </span>
+
+                <h1>
+                    Predict Student Mathematics Performance with AI
+                </h1>
+
+                <p>
+                    This intelligent prediction system uses Machine Learning to estimate
+                    a student's Mathematics Score based on demographic and academic
+                    attributes. It helps educators, institutions, and students
+                    understand performance trends using data-driven insights.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="/predictdata" class="btn">
+                        Start Prediction
+                    </a>
+
+                    <a href="#features" class="btn-outline">
+                        Learn More
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="hero-card">
+
+                <h2>Prediction Factors</h2>
+
+                <ul>
+                    <li>✔ Gender</li>
+                    <li>✔ Race / Ethnicity</li>
+                    <li>✔ Parental Level of Education</li>
+                    <li>✔ Lunch Type</li>
+                    <li>✔ Test Preparation Course</li>
+                    <li>✔ Reading Score</li>
+                    <li>✔ Writing Score</li>
+                </ul>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section id="features" class="features">
+
+        <div class="container">
+
+            <h2>Project Highlights</h2>
+
+            <div class="feature-grid">
+
+                <div class="card">
+                    <h3>Machine Learning</h3>
+                    <p>
+                        Trained using supervised machine learning algorithms to
+                        accurately predict mathematics scores.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Data Driven</h3>
+                    <p>
+                        Uses student academic and demographic features to provide
+                        personalized predictions.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Fast Prediction</h3>
+                    <p>
+                        Enter student details and receive an instant predicted
+                        mathematics score.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <h3>Educational Insights</h3>
+                    <p>
+                        Helps identify factors affecting academic performance for
+                        better decision making.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="about">
+
+        <div class="container">
+
+            <h2>About This Project</h2>
+
+            <p>
+                This web application demonstrates an end-to-end Machine Learning
+                pipeline built using Flask, Scikit-Learn, Pandas, and Python.
+                Data preprocessing, model training, prediction, and deployment
+                have been integrated into a user-friendly interface.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <div class="container footer-content">
+
+            <p>
+                Student Performance Prediction using Machine Learning
+            </p>
+
+            <p>
+                Flask • Python • Scikit-Learn • Machine Learning
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>
