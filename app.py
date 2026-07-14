@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify, session
 import pickle
 import pandas as pd
+from src.pipeline.predict_pipeline import CustomData,PredictPipeline
 
 app = Flask(__name__)
 app.secret_key = "student-performance-secret-key"
@@ -75,6 +76,7 @@ def predict_api():
     try:
 
         data = request.get_json()
+        
 
         input_df = pd.DataFrame({
             "gender": [data["gender"]],
@@ -130,13 +132,13 @@ def predict_api():
 # Batch Prediction API
 # ==========================
 
-@app.route("/api/batch-predict", methods=["POST"])
+@app.route("/api/batch-predict", 
+           methods=["POST"])
 def batch_predict_api():
 
     try:
 
         if "file" not in request.files:
-
             return jsonify({
                 "success": False,
                 "error": "No file uploaded."
@@ -153,19 +155,16 @@ def batch_predict_api():
         df["Predicted_Math_Score"] = predictions
 
         return jsonify({
-             "success": True,
-             "rows": df.to_dict(orient="records")
+            "success": True,
+            "rows": df.to_dict(orient="records")
         })
 
     except Exception as e:
-
         return jsonify({
             "success": False,
             "error": str(e)
         }), 500
 
 
-
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0",debug=True,port=5002)

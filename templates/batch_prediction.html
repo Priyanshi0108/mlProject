@@ -660,49 +660,37 @@ Batch Prediction | EduPredict AI
 
     <!-- ================= HERO ================= -->
 
-    <div class="batch-header">
+    <section class="batch-header">
 
         <span class="hero-badge">
             AI Batch Prediction
         </span>
 
         <h1>
-
             Predict Multiple Students'
-
             <span>Math Scores</span>
-
         </h1>
 
         <p>
-
             Upload a CSV file containing student information.
-            EduPredict AI will process every record and
-            instantly generate predicted mathematics scores.
-
+            EduPredict AI will automatically predict the mathematics
+            score of every student using the trained Machine Learning model.
         </p>
 
-    </div>
+    </section>
+
 
     <!-- ================= SUMMARY ================= -->
 
-    <div class="summary-grid">
+    <section class="summary-grid">
 
         <div class="glass-card summary-card">
 
             <i class="bi bi-file-earmark-spreadsheet-fill"></i>
 
-            <h3 id="totalStudents">
+            <h3 id="totalStudents">0</h3>
 
-                0
-
-            </h3>
-
-            <p>
-
-                Students
-
-            </p>
+            <p>Total Students</p>
 
         </div>
 
@@ -710,17 +698,9 @@ Batch Prediction | EduPredict AI
 
             <i class="bi bi-check-circle-fill"></i>
 
-            <h3 id="processedStudents">
+            <h3 id="processedStudents">0</h3>
 
-                0
-
-            </h3>
-
-            <p>
-
-                Processed
-
-            </p>
+            <p>Processed</p>
 
         </div>
 
@@ -728,56 +708,37 @@ Batch Prediction | EduPredict AI
 
             <i class="bi bi-bar-chart-fill"></i>
 
-            <h3 id="averagePrediction">
+            <h3 id="averagePrediction">0</h3>
 
-                0
-
-            </h3>
-
-            <p>
-
-                Average Score
-
-            </p>
+            <p>Average Prediction</p>
 
         </div>
 
-    </div>
+    </section>
+
 
     <!-- ================= UPLOAD ================= -->
 
-    <div class="glass-card upload-card">
+    <section class="glass-card upload-card">
 
-        <h2>
-
-            Upload CSV File
-
-        </h2>
+        <h2>Upload Dataset</h2>
 
         <p>
 
-            Drag & Drop your dataset here or choose a CSV file.
+            Select a CSV file containing student records.
 
         </p>
 
         <label
-            for="csvFile"
             class="upload-box"
-            id="dropArea">
+            id="dropArea"
+            for="csvFile">
 
             <i class="bi bi-cloud-arrow-up-fill"></i>
 
-            <h3>
+            <h3>Drop CSV File Here</h3>
 
-                Drop CSV Here
-
-            </h3>
-
-            <p>
-
-                or click to browse
-
-            </p>
+            <p>or Click to Browse</p>
 
             <input
                 type="file"
@@ -787,8 +748,9 @@ Batch Prediction | EduPredict AI
 
         </label>
 
-        <div id="selectedFile"
-             class="selected-file">
+        <div
+            id="selectedFile"
+            class="selected-file">
 
         </div>
 
@@ -802,11 +764,12 @@ Batch Prediction | EduPredict AI
 
         </button>
 
-    </div>
+    </section>
+
 
     <!-- ================= PROGRESS ================= -->
 
-    <div
+    <section
         class="glass-card progress-card"
         id="progressSection">
 
@@ -819,18 +782,19 @@ Batch Prediction | EduPredict AI
         <div class="progress">
 
             <div
-                class="progress-bar"
-                id="progressBar">
+                id="progressBar"
+                class="progress-bar">
 
             </div>
 
         </div>
 
-    </div>
+    </section>
 
-    <!-- ================= TABLE ================= -->
 
-    <div
+    <!-- ================= RESULT TABLE ================= -->
+
+    <section
         class="glass-card table-card"
         id="resultSection">
 
@@ -854,32 +818,22 @@ Batch Prediction | EduPredict AI
 
         </div>
 
+
         <div class="table-responsive">
 
-            <table
-                class="table table-dark table-hover align-middle">
+            <table class="table table-dark table-hover align-middle">
 
                 <thead>
 
                     <tr>
 
-                        <th>
+                        <th>#</th>
 
-                            Student
+                        <th>Student</th>
 
-                        </th>
+                        <th>Predicted Math Score</th>
 
-                        <th>
-
-                            Predicted Math Score
-
-                        </th>
-
-                        <th>
-
-                            Performance
-
-                        </th>
+                        <th>Performance</th>
 
                     </tr>
 
@@ -893,12 +847,12 @@ Batch Prediction | EduPredict AI
 
         </div>
 
-    </div>
+    </section>
 
 </div>
 
-
 {% endblock %}
+
 
 {% block js %}
 
@@ -920,6 +874,7 @@ const processedStudents = document.getElementById("processedStudents");
 const averagePrediction = document.getElementById("averagePrediction");
 
 const downloadBtn = document.getElementById("downloadBtn");
+downloadBtn.addEventListener("click", downloadCSV);
 
 let selectedCSV = null;
 let predictionResults = [];
@@ -1042,11 +997,8 @@ async function uploadFile() {
     try {
 
         const response = await fetch("/api/batch-predict", {
-
             method: "POST",
-
             body: formData
-
         });
 
         const data = await response.json();
@@ -1054,25 +1006,27 @@ async function uploadFile() {
         progressBar.style.width = "100%";
 
         if (!data.success) {
-
             throw new Error(data.error);
-
         }
 
-        predictionResults = data.predictions;
+        console.log("========== API RESPONSE ==========");
+        console.log(data);
+        console.log("Success:", data.success);
+        console.log("Rows:", data.rows);
+        console.log("Is Array:", Array.isArray(data.rows));
+        console.log("Length:", data.rows ? data.rows.length : 0);
+        console.log("First Row:", data.rows && data.rows.length ? data.rows[0] : null);
+
+        predictionResults = Array.isArray(data.rows) ? data.rows : [];
 
         buildResultTable(predictionResults);
 
     }
 
     catch (error) {
-
         alert(error.message);
-
         progressSection.style.display = "none";
-
     }
-
 }
 
 
@@ -1103,109 +1057,73 @@ function animateProgress() {
 // ======================================================
 // BUILD RESULT TABLE
 // ======================================================
-
 function buildResultTable(predictions) {
+
+    console.log("buildResultTable called");
+    console.table(predictions);
 
     predictionTable.innerHTML = "";
 
+    if (!Array.isArray(predictions) || predictions.length === 0) {
+        resultSection.style.display = "block";
+        return;
+    }
+
     let total = 0;
 
-    predictions.forEach((score, index) => {
+    predictions.forEach((student, index) => {
+
+        console.log(student);
+
+        const score = Number(student.Predicted_Math_Score);
 
         total += score;
 
-        let performance = "";
-        let badgeClass = "";
+        let performance = "Needs Improvement";
+        let badgeClass = "low";
 
         if (score >= 90) {
-
             performance = "Outstanding";
             badgeClass = "outstanding";
-
-        }
-
-        else if (score >= 75) {
-
+        } else if (score >= 75) {
             performance = "Excellent";
             badgeClass = "excellent";
-
-        }
-
-        else if (score >= 60) {
-
+        } else if (score >= 60) {
             performance = "Good";
             badgeClass = "good";
-
-        }
-
-        else if (score >= 40) {
-
+        } else if (score >= 40) {
             performance = "Average";
             badgeClass = "average";
-
         }
 
-        else {
-
-            performance = "Needs Improvement";
-            badgeClass = "low";
-
-        }
-
-        predictionTable.innerHTML += `
-
+        predictionTable.insertAdjacentHTML("beforeend", `
             <tr>
-
-                <td>
-
-                    Student ${index + 1}
-
-                </td>
-
-                <td>
-
-                    ${score.toFixed(2)}
-
-                </td>
-
-                <td>
-
-                    <span class="performance ${badgeClass}">
-
-                        ${performance}
-
-                    </span>
-
-                </td>
-
+                <td>${index + 1}</td>
+                <td>Student ${index + 1}</td>
+                <td>${score.toFixed(2)}</td>
+                <td><span class="performance ${badgeClass}">${performance}</span></td>
             </tr>
-
-        `;
-
+        `);
     });
 
-    totalStudents.innerHTML = predictions.length;
+    totalStudents.textContent = predictions.length;
+    processedStudents.textContent = predictions.length;
+    averagePrediction.textContent = (total / predictions.length).toFixed(2);
 
-    processedStudents.innerHTML = predictions.length;
-
-    averagePrediction.innerHTML =
-        (total / predictions.length).toFixed(2);
-
+    progressSection.style.display = "none";
     resultSection.style.display = "block";
-
 }
+
+
+
 
 // ======================================================
 // DOWNLOAD CSV
 // ======================================================
 
-document
-.getElementById("downloadBtn")
-.addEventListener("click", downloadCSV);
-
 function downloadCSV() {
 
-    if (predictionResults.length === 0) {
+    if (!Array.isArray(predictionResults) || predictionResults.length === 0) {
 
         alert("No predictions available.");
 
@@ -1213,53 +1131,39 @@ function downloadCSV() {
 
     }
 
-    let csv =
-        "Student,Predicted Math Score,Performance\n";
+    let csv = "Student,Predicted Math Score,Performance\n";
 
-    predictionResults.forEach((score, index) => {
+    predictionResults.forEach((student, index) => {
 
-        let performance;
+        const score = Number(student.Predicted_Math_Score);
+
+        let performance = "";
 
         if (score >= 90)
-
             performance = "Outstanding";
-
         else if (score >= 75)
-
             performance = "Excellent";
-
         else if (score >= 60)
-
             performance = "Good";
-
         else if (score >= 40)
-
             performance = "Average";
-
         else
-
             performance = "Needs Improvement";
 
-        csv +=
-            `Student ${index + 1},${score.toFixed(2)},${performance}\n`;
+        csv += `Student ${index + 1},${score.toFixed(2)},${performance}\n`;
 
     });
 
-    const blob = new Blob(
-        [csv],
-        { type: "text/csv;charset=utf-8;" }
-    );
+    const blob = new Blob([csv], {
+        type: "text/csv;charset=utf-8;"
+    });
 
-    const url =
-        URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
 
-    const link =
-        document.createElement("a");
+    const link = document.createElement("a");
 
     link.href = url;
-
-    link.download =
-        "batch_prediction_results.csv";
+    link.download = "batch_prediction_results.csv";
 
     document.body.appendChild(link);
 
@@ -1270,6 +1174,8 @@ function downloadCSV() {
     URL.revokeObjectURL(url);
 
 }
+
+
 
 // ======================================================
 // RESET WHEN NEW FILE IS CHOSEN
