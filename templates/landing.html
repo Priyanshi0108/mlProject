@@ -1,0 +1,652 @@
+{% extends "base.html" %}
+
+{% block title %}
+EduPredict AI | Home
+{% endblock %}
+
+{% block css %}
+<style>
+
+/* ---------------- HERO ---------------- */
+
+.hero{
+    min-height:85vh;
+    display:flex;
+    align-items:center;
+}
+
+.hero h1{
+    font-size:3.5rem;
+    font-weight:800;
+    line-height:1.2;
+}
+
+.hero h1 span{
+    background:linear-gradient(90deg,#60a5fa,#a855f7);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    color:#cbd5e1;
+    font-size:1.1rem;
+    margin:25px 0;
+    line-height:1.8;
+}
+
+.hero-image{
+
+    width:100%;
+    max-width:550px;
+
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-15px);}
+    100%{transform:translateY(0);}
+
+}
+
+/* ---------------- FEATURES ---------------- */
+
+.feature-card{
+
+    text-align:center;
+
+    padding:35px;
+
+}
+
+.feature-card i{
+
+    font-size:55px;
+
+    color:#60a5fa;
+
+    margin-bottom:20px;
+
+}
+
+.feature-card h4{
+
+    margin-bottom:15px;
+
+}
+
+.feature-card p{
+
+    color:#cbd5e1;
+
+}
+
+/* ---------------- STATS ---------------- */
+
+.stat-card{
+
+    text-align:center;
+
+    padding:35px;
+
+}
+
+.stat-number{
+
+    font-size:2.7rem;
+
+    font-weight:700;
+
+    color:#60a5fa;
+
+}
+
+.stat-title{
+
+    color:#cbd5e1;
+
+}
+
+/* ---------------- STEPS ---------------- */
+
+.step{
+
+    text-align:center;
+
+}
+
+.step-circle{
+
+    width:70px;
+    height:70px;
+
+    border-radius:50%;
+
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-size:30px;
+
+    margin:auto;
+
+    margin-bottom:20px;
+
+}
+
+.step p{
+
+    color:#cbd5e1;
+
+}
+
+/* CTA */
+
+.cta{
+
+    text-align:center;
+
+    padding:70px 30px;
+
+}
+
+.cta h2{
+
+    font-size:2.4rem;
+
+    font-weight:700;
+
+}
+
+.cta p{
+
+    color:#cbd5e1;
+
+    margin:20px auto;
+
+    max-width:700px;
+
+}
+
+/* Responsive */
+
+@media(max-width:992px){
+
+.hero{
+
+text-align:center;
+
+padding-top:40px;
+
+}
+
+.hero h1{
+
+font-size:2.5rem;
+
+}
+
+.hero img{
+
+margin-top:50px;
+
+}
+
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<div class="row align-items-center w-100">
+
+<div class="col-lg-6">
+
+<span class="badge bg-primary px-3 py-2 rounded-pill mb-3">
+
+Machine Learning Powered
+
+</span>
+
+<h1>
+
+Predict Student
+
+<span>Math Scores</span>
+
+with Artificial Intelligence
+
+</h1>
+
+<p>
+
+EduPredict AI uses a trained Machine Learning model to estimate a student's
+Math Score based on demographic information, reading performance,
+writing performance, lunch type, and test preparation course.
+
+Fast, accurate, and beautifully visualized.
+
+</p>
+
+<div class="mt-4">
+
+<a href="/predict" class="btn btn-primary-custom me-3">
+
+<i class="bi bi-graph-up-arrow"></i>
+
+Predict Score
+
+</a>
+
+<a href="/batch" class="btn btn-outline-custom">
+
+<i class="bi bi-upload"></i>
+
+Batch Prediction
+
+</a>
+
+</div>
+
+</div>
+
+<div class="col-lg-6 text-center">
+<img
+src="{{ url_for('static', filename='images/hero.svg') }}"
+class="hero-image"
+alt="AI Education">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FEATURES ================= -->
+
+<section class="py-5">
+
+<div class="text-center mb-5">
+
+<h2 class="section-title">
+
+Powerful Features
+
+</h2>
+
+<p class="section-subtitle">
+
+Everything you need for accurate student performance prediction.
+
+</p>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-md-6 col-lg-3">
+
+<div class="glass-card feature-card">
+
+<i class="bi bi-cpu"></i>
+
+<h4>Machine Learning</h4>
+
+<p>
+
+Highly trained regression model for predicting student performance.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 col-lg-3">
+
+<div class="glass-card feature-card">
+
+<i class="bi bi-lightning-charge"></i>
+
+<h4>Instant Prediction</h4>
+
+<p>
+
+Receive predictions instantly with optimized preprocessing.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 col-lg-3">
+
+<div class="glass-card feature-card">
+
+<i class="bi bi-bar-chart-line"></i>
+
+<h4>Visual Analytics</h4>
+
+<p>
+
+Interactive charts and detailed prediction analysis.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-6 col-lg-3">
+
+<div class="glass-card feature-card">
+
+<i class="bi bi-cloud-check"></i>
+
+<h4>Reliable</h4>
+
+<p>
+
+Built using Flask, Pandas, Scikit-learn, and XGBoost.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= STATS ================= -->
+
+<section class="py-5">
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="glass-card stat-card">
+
+<div class="stat-number" data-target="97">
+
+0
+
+</div>
+
+<div class="stat-title">
+
+Model Accuracy %
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="glass-card stat-card">
+
+<div class="stat-number" data-target="8">
+
+0
+
+</div>
+
+<div class="stat-title">
+
+Input Features
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="glass-card stat-card">
+
+<div class="stat-number" data-target="1000">
+
+0
+
+</div>
+
+<div class="stat-title">
+
+Training Samples
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="glass-card stat-card">
+
+<div class="stat-number" data-target="1">
+
+0
+
+</div>
+
+<div class="stat-title">
+
+Prediction in Seconds
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="py-5">
+
+<div class="text-center mb-5">
+
+<h2 class="section-title">
+
+How It Works
+
+</h2>
+
+</div>
+
+<div class="row g-4">
+
+<div class="col-md-3">
+
+<div class="step">
+
+<div class="step-circle">
+
+1
+
+</div>
+
+<h5>
+
+Enter Details
+
+</h5>
+
+<p>
+
+Provide student information and scores.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="step">
+
+<div class="step-circle">
+
+2
+
+</div>
+
+<h5>
+
+Preprocessing
+
+</h5>
+
+<p>
+
+Categorical and numerical data are transformed.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="step">
+
+<div class="step-circle">
+
+3
+
+</div>
+
+<h5>
+
+AI Prediction
+
+</h5>
+
+<p>
+
+The trained model predicts the Math Score.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="col-md-3">
+
+<div class="step">
+
+<div class="step-circle">
+
+4
+
+</div>
+
+<h5>
+
+Result Analysis
+
+</h5>
+
+<p>
+
+Visualize performance and recommendations.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= CTA ================= -->
+
+<section class="py-5">
+
+<div class="glass-card cta">
+
+<h2>
+
+Ready to Predict?
+
+</h2>
+
+<p>
+
+Experience AI-powered student performance prediction with an elegant,
+interactive dashboard.
+
+</p>
+
+<a href="/predict" class="btn btn-primary-custom">
+
+Start Prediction
+
+</a>
+
+</div>
+
+</section>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+const counters=document.querySelectorAll(".stat-number");
+
+counters.forEach(counter=>{
+
+const update=()=>{
+
+const target=+counter.getAttribute("data-target");
+
+const current=+counter.innerText;
+
+const increment=Math.ceil(target/100);
+
+if(current<target){
+
+counter.innerText=current+increment;
+
+setTimeout(update,20);
+
+}else{
+
+counter.innerText=target;
+
+}
+
+}
+
+update();
+
+});
+
+</script>
+
+{% endblock %}

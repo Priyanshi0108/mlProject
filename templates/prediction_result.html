@@ -1,0 +1,1194 @@
+{% extends "base.html" %}
+
+{% block title %}
+Prediction Result | EduPredict AI
+{% endblock %}
+
+{% block css %}
+<style>
+/* =====================================================
+   RESULT PAGE - CSS PART 1
+===================================================== */
+
+.result-container{
+
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+
+}
+
+/* ================= HERO ================= */
+
+.result-header{
+
+    text-align:center;
+    margin-bottom:60px;
+
+}
+
+.result-chip{
+
+    display:inline-block;
+    padding:10px 22px;
+
+    border-radius:50px;
+
+    background:rgba(37,99,235,.15);
+
+    border:1px solid rgba(96,165,250,.4);
+
+    color:#93c5fd;
+
+    font-weight:600;
+
+    margin-bottom:25px;
+
+}
+
+.result-header h1{
+
+    font-size:3rem;
+
+    font-weight:800;
+
+    margin-bottom:20px;
+
+    line-height:1.2;
+
+}
+
+.result-header h1 span{
+
+    background:linear-gradient(135deg,#60a5fa,#8b5cf6);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+.result-header p{
+
+    max-width:760px;
+
+    margin:auto;
+
+    color:#cbd5e1;
+
+    line-height:1.8;
+
+    font-size:1.08rem;
+
+}
+
+/* ================= SCORE CARD ================= */
+
+.score-section{
+
+    text-align:center;
+
+    padding:55px;
+
+    margin-bottom:45px;
+
+}
+
+.section-heading{
+
+    font-size:2rem;
+
+    font-weight:700;
+
+    margin-bottom:40px;
+
+}
+
+/* ================= CIRCLE ================= */
+
+.score-circle{
+
+    width:240px;
+
+    height:240px;
+
+    margin:auto;
+
+    border-radius:50%;
+
+    background:
+
+    conic-gradient(
+
+    #2563eb 0deg,
+
+    #7c3aed 0deg,
+
+    rgba(255,255,255,.08) 0deg
+
+    );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    position:relative;
+
+    transition:.5s;
+
+}
+
+.score-circle::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:185px;
+
+    height:185px;
+
+    background:#0f172a;
+
+    border-radius:50%;
+
+    box-shadow:
+
+    inset 0 0 20px rgba(255,255,255,.04);
+
+}
+
+/* ================= SCORE ================= */
+
+.score-inner{
+
+    position:relative;
+
+    z-index:2;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    flex-direction:column;
+
+}
+
+#scoreValue{
+
+    font-size:3.8rem;
+
+    font-weight:800;
+
+    color:white;
+
+}
+
+.score-inner small{
+
+    color:#94a3b8;
+
+    letter-spacing:2px;
+
+}
+
+/* ================= PERFORMANCE BADGE ================= */
+
+.performance-area{
+
+    margin-top:35px;
+
+}
+
+#performanceBadge{
+
+    display:inline-block;
+
+    padding:12px 34px;
+
+    border-radius:40px;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    color:white;
+
+    transition:.3s;
+
+}
+
+/* ================= SUMMARY ================= */
+
+.summary-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(auto-fit,minmax(230px,1fr));
+
+    gap:25px;
+
+    margin-top:50px;
+
+    margin-bottom:55px;
+
+}
+
+.summary-card{
+
+    text-align:center;
+
+    padding:35px;
+
+    transition:.35s;
+
+}
+
+.summary-card:hover{
+
+    transform:translateY(-8px);
+
+}
+
+/* ================= ICON ================= */
+
+.summary-icon{
+
+    width:75px;
+
+    height:75px;
+
+    margin:auto;
+
+    margin-bottom:20px;
+
+    border-radius:50%;
+
+    background:
+
+    linear-gradient(
+
+    135deg,
+
+    #2563eb,
+
+    #7c3aed
+
+    );
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:30px;
+
+    color:white;
+
+    box-shadow:
+
+    0 10px 25px
+
+    rgba(37,99,235,.35);
+
+}
+
+.summary-card h5{
+
+    margin-bottom:12px;
+
+    font-weight:600;
+
+}
+
+.summary-card p{
+
+    color:#cbd5e1;
+
+    font-size:17px;
+
+}
+
+/* =====================================================
+   RESULT PAGE - CSS PART 2B
+===================================================== */
+
+
+/* ================= INFO GRID ================= */
+
+.info-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+
+    gap:25px;
+
+    margin-bottom:45px;
+
+}
+
+.info-card{
+
+    text-align:center;
+
+    padding:35px;
+
+    transition:.35s ease;
+
+}
+
+.info-card:hover{
+
+    transform:translateY(-8px) scale(1.02);
+
+}
+
+.info-card i{
+
+    font-size:55px;
+
+    margin-bottom:20px;
+
+    display:block;
+
+    background:linear-gradient(135deg,#60a5fa,#8b5cf6);
+
+    -webkit-background-clip:text;
+
+    -webkit-text-fill-color:transparent;
+
+}
+
+.info-card h4{
+
+    font-weight:700;
+
+    margin-bottom:15px;
+
+}
+
+.info-card p{
+
+    color:#cbd5e1;
+
+    line-height:1.7;
+
+}
+
+
+/* ================= RECOMMENDATION ================= */
+
+.recommendation-card{
+
+    margin-top:20px;
+
+    padding:40px;
+
+    text-align:center;
+
+}
+
+.recommendation-card h3{
+
+    margin-bottom:20px;
+
+    font-weight:700;
+
+}
+
+#recommendationText{
+
+    font-size:1.05rem;
+
+    color:#cbd5e1;
+
+    line-height:1.8;
+
+}
+
+
+/* ================= BUTTONS ================= */
+
+.button-area{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:20px;
+
+    margin-top:50px;
+
+}
+
+.button-area .btn{
+
+    min-width:220px;
+
+    font-size:17px;
+
+    padding:14px 30px;
+
+    transition:.35s;
+
+}
+
+.button-area .btn i{
+
+    margin-right:8px;
+
+}
+
+.button-area .btn:hover{
+
+    transform:translateY(-5px);
+
+}
+
+
+/* ================= GLASS EFFECT ================= */
+
+.glass-card{
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:24px;
+
+    box-shadow:
+
+        0 20px 45px rgba(0,0,0,.18);
+
+}
+
+
+/* ================= ANIMATIONS ================= */
+
+.result-header{
+
+    animation:fadeDown .9s ease;
+
+}
+
+.score-section{
+
+    animation:fadeUp .9s ease;
+
+}
+
+.summary-card{
+
+    animation:fadeUp 1s ease;
+
+}
+
+.info-card{
+
+    animation:fadeUp 1.1s ease;
+
+}
+
+.recommendation-card{
+
+    animation:fadeUp 1.2s ease;
+
+}
+
+@keyframes fadeDown{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(-35px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+/* Floating animation for score circle */
+
+.score-circle{
+
+    animation:floatCircle 5s ease-in-out infinite;
+
+}
+
+@keyframes floatCircle{
+
+    0%{
+
+        transform:translateY(0px);
+
+    }
+
+    50%{
+
+        transform:translateY(-8px);
+
+    }
+
+    100%{
+
+        transform:translateY(0px);
+
+    }
+
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:992px){
+
+    .result-header h1{
+
+        font-size:2.5rem;
+
+    }
+
+    .score-section{
+
+        padding:40px;
+
+    }
+
+}
+
+@media (max-width:768px){
+
+    .result-header h1{
+
+        font-size:2rem;
+
+    }
+
+    .result-header p{
+
+        font-size:15px;
+
+    }
+
+    .score-circle{
+
+        width:190px;
+
+        height:190px;
+
+    }
+
+    .score-circle::before{
+
+        width:145px;
+
+        height:145px;
+
+    }
+
+    #scoreValue{
+
+        font-size:2.8rem;
+
+    }
+
+    .button-area{
+
+        flex-direction:column;
+
+    }
+
+    .button-area .btn{
+
+        width:100%;
+
+    }
+
+}
+
+@media (max-width:576px){
+
+    .result-container{
+
+        padding:10px;
+
+    }
+
+    .score-section{
+
+        padding:30px 20px;
+
+    }
+
+    .recommendation-card{
+
+        padding:25px;
+
+    }
+
+    .summary-card{
+
+        padding:25px;
+
+    }
+
+    .info-card{
+
+        padding:25px;
+
+    }
+
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="result-container">
+
+    <!-- ================= HERO ================= -->
+
+    <div class="result-header">
+
+        <div class="header-text">
+
+            <span class="result-chip">
+                AI Prediction Complete
+            </span>
+
+            <h1>
+                Student Performance
+                <span>Prediction Result</span>
+            </h1>
+
+            <p>
+                Our Machine Learning model has analyzed the student's
+                academic information and estimated the expected
+                Mathematics score.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ================= SCORE SECTION ================= -->
+
+    <div class="glass-card score-section">
+
+        <h3 class="section-heading">
+            Predicted Mathematics Score
+        </h3>
+
+        <div class="score-circle" id="scoreCircle">
+
+            <div class="score-inner">
+
+                <span id="scoreValue">
+
+                    {{ prediction }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="performance-area">
+
+            <span id="performanceBadge">
+
+                Loading...
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- ================= STUDENT SUMMARY ================= -->
+
+    <div class="summary-grid">
+
+        <div class="glass-card summary-card">
+
+            <div class="summary-icon">
+
+                <i class="bi bi-person-fill"></i>
+
+            </div>
+
+            <h5>Gender</h5>
+
+            <p>{{ gender }}</p>
+
+        </div>
+
+        <div class="glass-card summary-card">
+
+            <div class="summary-icon">
+
+                <i class="bi bi-book-fill"></i>
+
+            </div>
+
+            <h5>Reading Score</h5>
+
+            <p>{{ reading }}</p>
+
+        </div>
+
+        <div class="glass-card summary-card">
+
+            <div class="summary-icon">
+
+                <i class="bi bi-pencil-fill"></i>
+
+            </div>
+
+            <h5>Writing Score</h5>
+
+            <p>{{ writing }}</p>
+
+        </div>
+
+        <div class="glass-card summary-card">
+
+            <div class="summary-icon">
+
+                <i class="bi bi-mortarboard-fill"></i>
+
+            </div>
+
+            <h5>Preparation</h5>
+
+            <p>{{ course }}</p>
+
+        </div>
+
+    </div>
+
+    <!-- ================= MODEL INFO ================= -->
+
+    <div class="info-grid">
+
+        <div class="glass-card info-card">
+
+            <i class="bi bi-cpu-fill"></i>
+
+            <h4>Machine Learning Model</h4>
+
+            <p>
+                XGBoost Regressor trained on the
+                Student Performance dataset.
+            </p>
+
+        </div>
+
+        <div class="glass-card info-card">
+
+            <i class="bi bi-lightning-fill"></i>
+
+            <h4>Prediction Speed</h4>
+
+            <p>
+
+                Less than one second
+                including preprocessing.
+
+            </p>
+
+        </div>
+
+        <div class="glass-card info-card">
+
+            <i class="bi bi-check-circle-fill"></i>
+
+            <h4>Status</h4>
+
+            <p>
+
+                Prediction generated successfully.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- ================= RECOMMENDATION ================= -->
+
+    <div class="glass-card recommendation-card">
+
+        <h3>
+
+            AI Recommendation
+
+        </h3>
+
+        <p id="recommendationText">
+
+            Generating recommendation...
+
+        </p>
+
+    </div>
+
+    <!-- ================= ACTION BUTTONS ================= -->
+
+    <div class="button-area">
+
+        <a href="/predict"
+           class="btn btn-primary-custom">
+
+            <i class="bi bi-arrow-repeat"></i>
+
+            Predict Again
+
+        </a>
+
+        <a href="/analysis"
+           class="btn btn-outline-custom">
+
+            <i class="bi bi-bar-chart-fill"></i>
+
+            View Analysis
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+// ======================================================
+// DATA FROM FLASK
+// ======================================================
+
+const prediction = Number({{ prediction|default(0)|tojson }});
+const reading = Number({{ reading|default(0)|tojson }});
+const writing = Number({{ writing|default(0)|tojson }});
+
+const gender = {{ gender|default("", true)|tojson }};
+const course = {{ course|default("", true)|tojson }};
+
+// ======================================================
+// DOM ELEMENTS
+// ======================================================
+
+const scoreValue = document.getElementById("scoreValue");
+const scoreCircle = document.getElementById("scoreCircle");
+const performanceBadge = document.getElementById("performanceBadge");
+const recommendationText = document.getElementById("recommendationText");
+
+// ======================================================
+// SCORE ANIMATION
+// ======================================================
+
+let currentScore = 0;
+
+const animationDuration = 1800;
+const fps = 60;
+const totalFrames = Math.round(animationDuration / (1000 / fps));
+
+const increment = prediction / totalFrames;
+
+function animateScore() {
+
+    currentScore += increment;
+
+    if (currentScore > prediction) {
+        currentScore = prediction;
+    }
+
+    scoreValue.innerHTML = currentScore.toFixed(1);
+
+    const degree = (currentScore / 100) * 360;
+
+    scoreCircle.style.background = `
+        conic-gradient(
+            #2563eb ${degree}deg,
+            #7c3aed ${degree}deg,
+            rgba(255,255,255,.08) ${degree}deg
+        )
+    `;
+
+    if (currentScore < prediction) {
+        requestAnimationFrame(animateScore);
+    }
+}
+
+animateScore();
+
+// ======================================================
+// PERFORMANCE BADGE
+// ======================================================
+
+let performanceLevel = "";
+
+if (prediction >= 90) {
+
+    performanceLevel = "Outstanding";
+
+    performanceBadge.innerHTML = "🏆 Outstanding";
+
+    performanceBadge.style.background =
+        "linear-gradient(135deg,#16a34a,#22c55e)";
+
+}
+
+else if (prediction >= 75) {
+
+    performanceLevel = "Excellent";
+
+    performanceBadge.innerHTML = "⭐ Excellent";
+
+    performanceBadge.style.background =
+        "linear-gradient(135deg,#2563eb,#3b82f6)";
+
+}
+
+else if (prediction >= 60) {
+
+    performanceLevel = "Good";
+
+    performanceBadge.innerHTML = "👍 Good";
+
+    performanceBadge.style.background =
+        "linear-gradient(135deg,#eab308,#facc15)";
+
+}
+
+else if (prediction >= 40) {
+
+    performanceLevel = "Average";
+
+    performanceBadge.innerHTML = "📘 Average";
+
+    performanceBadge.style.background =
+        "linear-gradient(135deg,#ea580c,#fb923c)";
+
+}
+
+else {
+
+    performanceLevel = "Needs Improvement";
+
+    performanceBadge.innerHTML = "⚠ Needs Improvement";
+
+    performanceBadge.style.background =
+        "linear-gradient(135deg,#dc2626,#ef4444)";
+
+}
+
+// ======================================================
+// AI RECOMMENDATION
+// ======================================================
+
+let recommendation = "";
+
+if (prediction >= 90) {
+
+    recommendation =
+    "🌟 Outstanding performance! The student demonstrates exceptional mathematical ability. Continue solving advanced problems and participate in competitive programming or mathematics competitions.";
+
+}
+else if (prediction >= 75) {
+
+    recommendation =
+    "🎯 Excellent work! Continue regular revision and practice medium-to-hard level problems to further strengthen mathematical skills.";
+
+}
+else if (prediction >= 60) {
+
+    recommendation =
+    "📚 Good performance. Spend additional time practicing algebra, geometry, and word problems. Daily revision can significantly improve scores.";
+
+}
+else if (prediction >= 40) {
+
+    recommendation =
+    "📝 Average performance. Focus on strengthening core concepts and solving more practice questions. Consistency is the key to improvement.";
+
+}
+else {
+
+    recommendation =
+    "⚠ The student requires additional support. Begin with fundamental concepts, maintain a daily study schedule, and seek guidance whenever needed.";
+
+}
+
+// ======================================================
+// Reading vs Writing Analysis
+// ======================================================
+
+recommendation += "<br><br>";
+
+if (reading > writing + 10) {
+
+    recommendation +=
+    "<strong>📖 Reading is significantly stronger than Writing.</strong><br>Improving writing practice can positively influence mathematical reasoning and explanation skills.";
+
+}
+else if (writing > reading + 10) {
+
+    recommendation +=
+    "<strong>✍️ Writing is significantly stronger than Reading.</strong><br>Working on reading comprehension will help understand mathematical problems more effectively.";
+
+}
+else {
+
+    recommendation +=
+    "<strong>✅ Reading and Writing skills are well balanced.</strong><br>This balanced foundation supports overall academic performance.";
+
+}
+
+// ======================================================
+// Additional Personalized Insights
+// ======================================================
+
+recommendation += "<br><br>";
+
+if (course === "completed") {
+
+    recommendation +=
+    "🎓 Completing the test preparation course appears to have positively contributed to the predicted performance.";
+
+}
+else {
+
+    recommendation +=
+    "📚 Completing a structured test preparation course may help improve future performance.";
+
+}
+
+recommendationText.innerHTML = recommendation;
+
+
+// ======================================================
+// Celebration Effect
+// ======================================================
+
+function createConfetti() {
+
+    const colors = [
+        "#2563eb",
+        "#7c3aed",
+        "#22c55e",
+        "#f59e0b",
+        "#ef4444"
+    ];
+
+    for (let i = 0; i < 120; i++) {
+
+        const confetti = document.createElement("div");
+
+        confetti.style.position = "fixed";
+        confetti.style.width = "8px";
+        confetti.style.height = "8px";
+        confetti.style.borderRadius = "50%";
+        confetti.style.pointerEvents = "none";
+        confetti.style.zIndex = "9999";
+
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.top = "-20px";
+
+        confetti.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+
+        document.body.appendChild(confetti);
+
+        const x = (Math.random() - 0.5) * 400;
+        const y = window.innerHeight + 100;
+        const rotation = Math.random() * 720;
+
+        confetti.animate(
+            [
+                {
+                    transform: "translate(0,0) rotate(0deg)",
+                    opacity: 1
+                },
+                {
+                    transform:
+                        `translate(${x}px, ${y}px) rotate(${rotation}deg)`,
+                    opacity: 0
+                }
+            ],
+            {
+                duration: 3000 + Math.random() * 1500,
+                easing: "ease-out"
+            }
+        );
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 4500);
+
+    }
+
+}
+
+if (prediction >= 90) {
+
+    setTimeout(createConfetti, 800);
+
+}
+
+
+// ======================================================
+// Console Message
+// ======================================================
+
+console.log("Prediction Score:", prediction);
+console.log("Performance:", performanceLevel);
+
+</script>
+
+{% endblock %}
